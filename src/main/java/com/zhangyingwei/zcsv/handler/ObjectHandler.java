@@ -6,6 +6,7 @@ import com.zhangyingwei.zcsv.utils.ObjectUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,16 +38,31 @@ public class ObjectHandler extends DefaultHandler {
         }
         Class resultType = resultClass[0];
         try {
+            List list = new ArrayList();
             Class clazz = resultType;
-            Object obj = clazz.newInstance();
-            List<Method> methods = Arrays.stream(clazz.getMethods())
-                    .filter(method -> method.getName().startsWith("set"))
-                    .collect(Collectors.toList());
-            for (int i = 0; i < methods.size(); i++) {
-                methods.get(i).invoke(obj, items.get(i));
+            for (String[] item : items) {
+                Object obj = clazz.newInstance();
+                List<Method> methods = Arrays.stream(clazz.getMethods())
+                        .filter(method -> method.getName().startsWith("set"))
+                        .collect(Collectors.toList());
+                for (int i = 0; i < item.length; i++) {
+                    try {
+                        Parameter[] paras = methods.get(i).getParameters();
+                        Class arg0 = paras[0].getType();
+                        methods.get(i).setAccessible(true);
+                        if("java.lang.String".equals(arg0.getName())){
+                            methods.get(i).invoke(obj, item[i]);
+                        } else if("int".equals(arg0.getName()) || "java.lang.Integer".equals(arg0.getName())){
+                            methods.get(i).invoke(obj, Integer.parseInt(item[i]));
+                        }
+                    } catch (InvocationTargetException e) {
+                        System.out.println("ERROR: "+e.getMessage());
+                    }
+                }
+                list.add(obj);
             }
-            return (E) obj;
-        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            return (E) list;
+        } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
         return null;

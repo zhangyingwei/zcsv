@@ -1,14 +1,10 @@
 package com.zhangyingwei.zcsv.importer;
 
-import com.zhangyingwei.zcsv.annotation.DefaultHandler;
 import com.zhangyingwei.zcsv.annotation.HandlerType;
 import com.zhangyingwei.zcsv.config.CsvConfig;
-import com.zhangyingwei.zcsv.handler.ObjectHandler;
 import com.zhangyingwei.zcsv.model.TestModel;
 import org.junit.Test;
-
 import java.util.List;
-
 import static org.junit.Assert.*;
 
 /**
@@ -23,7 +19,7 @@ public class CsvImporterTest {
 
     @Test
     public void testImport() throws Exception {
-        CsvImporter importer = new CsvImporter(new CsvConfig().setBasePath("csv"));
+        CsvImporter importer = new CsvImporter(new CsvConfig().setBasePath("csv").setSpliter("@"));
         List<TestModel> testModels = importer.importCsv(HandlerType.OBJECTHANDLER, TestModel.class);
         System.out.println(testModels);
     }

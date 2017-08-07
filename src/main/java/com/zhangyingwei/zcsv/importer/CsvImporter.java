@@ -44,7 +44,7 @@ public class CsvImporter implements Importer {
                 .filter(file -> {
                     String name = file.getName().replace(this.config.getFileSuffix(), "");
                     if(this.config.isDefaultName()){
-                        this.config.setFileName("\\*");
+                        this.config.setFileName("(.*)");
                     }
                     Pattern pattern = Pattern.compile(this.config.getFileName());
                     Matcher matcher = pattern.matcher(name);
