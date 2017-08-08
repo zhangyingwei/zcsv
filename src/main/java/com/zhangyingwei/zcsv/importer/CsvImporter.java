@@ -58,8 +58,6 @@ public class CsvImporter implements Importer {
             handler = (DefaultHandler) type.getName().newInstance();
         }else if(HandlerType.MAPHANDLER.equals(type)){
             handler = (MapHandler) type.getName().newInstance();
-        }else if(HandlerType.OBJECTHANDLER.equals(type)){
-            handler = (ObjectHandler) type.getName().newInstance();
         }
         return handler;
     }

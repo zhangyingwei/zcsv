@@ -8,8 +8,8 @@ import com.zhangyingwei.zcsv.handler.ObjectHandler;
  */
 public enum HandlerType {
     DEFAULTHANDLER(DefaultHandler.class),
-    MAPHANDLER(MapHandler.class),
-    OBJECTHANDLER(ObjectHandler.class);
+    MAPHANDLER(MapHandler.class);
+//    OBJECTHANDLER(ObjectHandler.class);
 
     private Class name;
     HandlerType(Class name) {

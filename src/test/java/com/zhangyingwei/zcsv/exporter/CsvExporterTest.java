@@ -43,7 +43,7 @@ public class CsvExporterTest {
             }
         };
 
-        CsvExporter exporter = new CsvExporter(new CsvConfig());
+        CsvExporter exporter = new CsvExporter(new CsvConfig().setFileName("map").setBasePath("csv"));
         exporter.export(new MapHandler(map));
     }
 
